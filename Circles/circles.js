@@ -3,7 +3,6 @@ var ctx;
 var canvas;
 var shapes;
 var mouseDown;
-var shapeType;
 
 var colors = 
 [
@@ -37,44 +36,23 @@ function init()
 		canvas.width = window.innerWidth;
 		canvas.height = window.innerHeight;
 	};	
-	
-
+		
 	// Graphic context to draw in the canvas
 	ctx = canvas.getContext('2d');
 
 	// Contains all shapes to be drawn
 	shapes = [];
 	
-
-	//setup forms
-	var sliderValue1;
-	var sliderValue2;
-	
-	// change shape type
-	// number of vertices
-	document.getElementById("slider1").addEventListener("change", function() {
-	  sliderValue1 = document.getElementById("slider1").value;
-	  shapeType1.innerHTML = sliderValue1;
-	}) 
-	//change shape type
-	// angle size in each vertice
-	document.getElementById("slider2").addEventListener("change", function() {
-	  sliderValue2 = document.getElementById("slider2").value;
-	  shapeType2.innerHTML = sliderValue2;
-	})
-	
-	
-	
 	// Seting up mouse events
 	mouseDown = false;
-		
+	
 	canvas.addEventListener('mousedown', function(e)
 	{
 		mouseDown = true;
 		explosion(e);
 	});
 	
-	canvas.addEventListener('mouseup', function(e) {
+	window.addEventListener('mouseup', function(e) {
 		mouseDown = false;		
 	});
 	
@@ -101,7 +79,7 @@ function init()
 		
 		// repaint all remaining shapes
 		shapes.forEach(function(shape) {
-			paint(shape, sliderValue1, sliderValue2);	
+			paint(shape);	
 		});		
 	}, 
 	100);	
@@ -193,95 +171,20 @@ function changePosition(shape)
 }
 
 // just paint the shape using the graphics context
-function paint(shape, sliderValue1, sliderValue2)
+function paint(shape)
 {
-	ctx.fillStyle = shape.color;
-	ctx.strokeStyle = shape.color;
-  
- 	//drawCircle(shape);
-  
-
-  
-	// this function draw differents shapes according the parameters of number divisions of the circle and tha angle between the sides.
-    strokeShape(shape.x, shape.y, shape.size, sliderValue1, sliderValue2);
-		
+	ctx.fillStyle = shape.color;	
+	drawCircle(shape);	
 };
-
 
 // generates a random number in the given range
 function random(start,end) {
 	return Math.random() * Math.abs(end-start) + start;
 }
 
-//drawing circles
 function drawCircle(shape)
 {
 	ctx.beginPath();
 	ctx.arc(shape.x, shape.y, shape.size, 0, Math.PI * 2);
 	ctx.fill();
 }
-
-//drawing rectangles
-function drawRect(x, y, w, h)
-{
-	ctx.beginPath();
-	w=w*random(1,2);
-	h=h*random(1,2);
-	
-	//draw empty rectangle
-	//ctx.strokeRect(x, y, w, h);
-	
-	//draw a filled rectangle
-	ctx.fillRect(x, y, w, h)
-	ctx.fill();
-}
-
-// function to draw stars from
-// https://stackoverflow.com/questions/25837158/how-to-draw-a-star-by-using-canvas-html5
-// I do not know how exactly it works but it can be used to replace the circles.
-function strokeShape(x, y, size, n, angle) {
-    ctx.save();
-    ctx.beginPath();
-    ctx.translate(x, y);
-    ctx.moveTo(0,0-size);
-    for (var i = 0; i < n; i++) {
-        ctx.rotate(Math.PI / n);
-        ctx.lineTo(0, 0 - (size*angle));
-        ctx.rotate(Math.PI / n);
-        ctx.lineTo(0, 0 - size);
-    }
-    ctx.closePath();
-    ctx.fill();
-    ctx.restore();
-}
-
-
-//other function to draw stars
-
- function drawStar(cx,cy,spikes,outerRadius,innerRadius){
-      var rot=Math.PI/2*3;
-      var x=cx;
-      var y=cy;
-      var step=Math.PI/spikes;
-
-      ctx.beginPath();
-      ctx.moveTo(cx,cy-outerRadius)
-      for(i=0;i<spikes;i++){
-        x=cx+Math.cos(rot)*outerRadius;
-        y=cy+Math.sin(rot)*outerRadius;
-        ctx.lineTo(x,y)
-        rot+=step
-
-        x=cx+Math.cos(rot)*innerRadius;
-        y=cy+Math.sin(rot)*innerRadius;
-        ctx.lineTo(x,y)
-        rot+=step
-      }
-      ctx.lineTo(cx,cy-outerRadius);
-      ctx.closePath();
-      ctx.lineWidth=0;
-	  ctx.stroke();
-      ctx.fill();
-    }
-
-  

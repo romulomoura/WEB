@@ -6,25 +6,3 @@ body
 	margin: 0;
 	overflow: hidden;
 }
-
-h1 
-{
-    text-align:center;
-    padding-top:20px;
-    margin-bottom:20px;
-}
-
-
-
-div#controls 
-{
-     width:960px;
-     margin:0 auto;
-	 text-align:center;
-	 margin-top:0px;
-	 margin-bottom:20px;
-}
-		   
-
-
-		  
