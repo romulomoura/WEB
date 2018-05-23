@@ -1,0 +1,85 @@
+/* border around modal box */
+.modal{
+  width:25%;
+  border: 1px solid blue;
+  background-color: black;
+}
+/*setting for INPUT (new Todo)*/
+#myInput{
+  color:white;
+  border: 0px solid black;
+  background: black;
+  width: 200px;
+  margin-bottom: 10px;
+  margin-left: 40px;
+  height: 25px;
+}
+/* Add button setting*/
+.addBtn{
+  color:white;
+  margin-left: 15px;
+}
+/*closing the modal box*/
+.closing{
+  color: white;
+  margin-left: 10px;
+  margin-top: 10px;
+}
+/* Style the list items */
+ul li {
+    color: white;
+    cursor: pointer;
+    position: relative;
+    padding: 10px 10px 10px 40px;
+    background: #000;
+    font-size: 15px;
+    transition: 0.2s;
+
+}
+/* making icon (V) when click */
+ul li.checked::before {
+    content: '';
+    position: absolute;
+    border-color: #fff;
+    border-style: solid;
+    border-width: 0 2px 2px 0;
+    top: 10px;
+    left: 16px;
+    transform: rotate(45deg);
+    height: 15px;
+    width: 7px;
+}
+/*hover for ul and li of list background*/
+ul li:hover {
+    background: rgb(29, 25, 25);
+}
+/* take out the (.) of list <ul> */
+ul {
+    padding: 0;
+}
+/* line-between a name's list */
+ul li.checked {
+    background: #000;
+    color: #fff;
+    text-decoration: line-through;
+}
+/* making (x) to close a particular name of the list   */
+.close {
+    position: absolute;
+    right: 0;
+    top: 0;
+    padding: 12px 16px 12px 16px;
+}
+
+
+
+
+/* TESTING . */
+
+.test{
+  margin-left: 40px;
+  color: white;
+}
+.Stodo{
+  margin-left: 5px;
+}

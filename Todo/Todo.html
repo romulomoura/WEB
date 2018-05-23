@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>repl.it</title>
+    <link href="index.css" rel="stylesheet" type="text/css" />
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="shaa384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+
+  </head>
+  <body>
+    <!-- Trigger/Open he Modal -->
+    <h5 id="mytodo">Todo</h5>
+
+<!-- The Modal -->
+    <div id="myModal" class="modal">
+
+    <!-- Modal content -->
+      <div class="modal-content">
+        <span class="closing">
+          &times;
+        </span>
+
+        <!--TESTING -->
+        <!-- <div class="test">
+          <h4><span id="number">0</span> <span class="Stodo">Todo</span></h4>
+        </div>] -->
+        <!--TESTING END-->
+
+        <ul id="myUL">
+        </ul>
+      </div>
+      <div id="myDIV" class="header">
+          <input type="text" id="myInput" placeholder="New Todo">
+          <span onclick="newElement()" class="addBtn"> <i class="fas fa-plus-circle"> </i></span>
+      </div>
+    </div>
+    <script src="index.js"></script>
+  </body>
+</html>
