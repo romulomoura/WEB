@@ -7,6 +7,20 @@ html,body
     overflow: hidden;	
 }
 
+body 
+{
+	opacity: 1.0;
+	
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: 100%;
+	background-image: url("empty.jpg");
+	
+	-webkit-transition: background 2s ease-in-out;
+	-moz-transition: background 2s ease-in-out;	
+	transition: background 2s ease-in-out;
+}
+
 .panel 
 {
 	display: none;
@@ -17,9 +31,55 @@ html,body
 	transform: translateY(-50%);
 }
 
+.shadow 
+{
+	color: #FFFFFF;
+	text-shadow: 2px 2px 8px #000000;
+}
+
+h1 
+{
+	font-size: 100px;
+	font-weight: normal;
+	margin: 0;	
+}
+
+.setup h1 {
+	font-size: 80px;
+}
+
+h2 
+{
+	font-size: 40px;
+	font-weight: normal;
+	margin: 0;
+}
+
+h3 
+{
+	font-size: 25px;
+	font-weight: normal;
+	margin: 30px 0 10px 0;
+}
+
 input 
 {
 	outline: none;
 	border: none;
-	border-bottom: 1px solid black;
+	border-bottom: 1px solid #FFFFFF;
+	text-align: center;
+	background: transparent;
+	font-weight: normal;
+}
+
+.home input 
+{
+	font-size: 25px;
+	width: 300px;
+}
+
+.setup input 
+{
+	font-size: 60px;
+	width: 700px;
 }
