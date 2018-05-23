@@ -18,11 +18,7 @@ $().ready(function()
 		}
 		
 		// set timer to auto update background image
-		updateBackgroundImage();
-		
-		setInterval(function(){
-			//updateBackgroundImage();
-		}, 1*60*1000);
+		updateBackgroundImage();	
 	}
 });
 
@@ -63,45 +59,58 @@ function showSetupPage()
 	$('.panel').hide(); // hide all panels
 	
 	// show setup panel gently
-	$('.setup').fadeIn(3000).find('input').focus();
+	$('.setup').fadeIn(3000, function() {
+		$(this).find('input').focus();
+	});
 }
 
 // the main page. if a username has set, this will be the first page.
 function showHomePage()
 {
-	$('.home').fadeIn(3000).find('input').focus();
-	showTime();
+	$('.home').fadeIn(3000, function() {
+		$(this).find('input').focus();
+	});
+	
+	updateTime();
+	updateWeather();
 }
 
 // this function add 0 in front of the number that are < 10
 function formatTime(i) 
 {
-  if (i < 10) {
-    i = "0" + i;
-  }
-  
-  return i;
+	if (i < 10) {
+		i = "0" + i;
+	}
+
+	return i;
 }
 
 // update current time on screen
-function showTime() 
+function updateTime() 
 {
-  // get current date
-  var today = new Date();
+	// check for invalid user
+	if (localStorage.getItem('username') == undefined) 
+	{
+		showSetupPage();
+		return;
+	}
+	
+    // get current date
+	var today = new Date();
   
-  var hour = today.getHours();
-  var minutes = today.getMinutes();   
-  
-  $('.home h1').html(formatTime(hour) + ":" + formatTime(minutes));
-  
-  var period = hour < 12 ? 'morning' : (hour < 18 ? 'afternoon' : 'evening');
-  
-   $('.home h2').html('Good ' + period + ', ' + localStorage.getItem('username') + '.');
-    
-  // update the time information on the screen
-  t = setTimeout(function() {
-    showTime()
-  }, 1000);
+	var hour = today.getHours();
+	var minutes = today.getMinutes();   
+
+	$('.home h1').html(formatTime(hour) + ":" + formatTime(minutes));
+
+	var period = hour < 12 ? 'morning' : (hour < 18 ? 'afternoon' : 'evening');
+
+	$('.home h2').html('Good ' + period + ', ' + localStorage.getItem('username') + '.');
+
+	// update the time information on the screen
+	setTimeout(function() {
+		updateTime()
+	}, 1000);
 }
 
 // retrieves the background image from 'unsplash' website
@@ -109,6 +118,7 @@ function updateBackgroundImage()
 {
 	var unsplashUrl = "https://api.unsplash.com/photos/random?featured";
 	var unsplashClientId = "a24e1fa3b77c93935f0552ebf6354a3540e9aa356caf80a1fcb55125fdb16110";
+	var interval = 1*60*1000;
 	
     $.getJSON(unsplashUrl + "&client_id=" + unsplashClientId, function(data)
 	{        
@@ -118,7 +128,39 @@ function updateBackgroundImage()
         
         $("body").css("background-image", "url(" + photoUrl + ")");       
     })
-	.fail(function(){
+	.fail(function() {
 		$("body").css("background-image", "url(static.jpg)");
+	})
+	.always(function() 
+	{
+		setTimeout(function(){
+			updateBackgroundImage();
+		}, interval);
+	});
+}
+
+function updateWeather()
+{
+	var ipUrl = "https://ipapi.co/json/";
+	var weatherUrl = "https://api.openweathermap.org/data/2.5/weather?";
+	var appId = "0ba1b50f1a3738d6071b91674041def7";
+	var interval = 1*60*1000;
+	
+	// first JSON request to get the location
+	$.getJSON(ipUrl, function(data)
+	{		
+		// second JSON request to get the weather
+		$.getJSON(weatherUrl + "q=" + data.city + "&appid=" + appId, function(data) 
+		{			
+			$('.weather img').attr('src','http://openweathermap.org/img/w/' + data.weather[0].icon + '.png');
+			$('.weather .temp').html(Math.floor((data.main.temp - 273.15)) + '°C');
+			$('.weather .city').html(data.name);			
+		})
+		.always(function() 
+		{
+			setTimeout(function(){
+				updateWeather();
+			}, interval);
+		});
 	});
 }
