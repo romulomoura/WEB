@@ -1,9 +1,9 @@
 
 // called when the page is loaded
-$().ready(function() 
+$().ready(function()
 {
 	// check for browser support
-	if (typeof(Storage) == undefined) {		
+	if (typeof(Storage) == undefined) {
 		showErrorPage();
 	}
 	else
@@ -16,9 +16,9 @@ $().ready(function()
 		else {
 			showSetupPage();
 		}
-		
+
 		// set timer to auto update background image
-		updateBackgroundImage();	
+		updateBackgroundImage();
 	}
 });
 
@@ -30,35 +30,37 @@ function showErrorPage()
 	$('.error').show(); // show the error panel
 }
 
-// the setup page will get the user name and save it in the 
-// browser local storage. 
+// the setup page will get the user name and save it in the
+// browser local storage.
 // this page will only be displayed if no username has been defined beffore.
 function showSetupPage()
-{	
+{
 	// press ENTER on setup screen to get the user name
-	$('.setup input').off('keyup.setup').on('keyup.setup', function(e) 
+	$('.setup input').off('keyup.setup').on('keyup.setup', function(e)
 	{
 		if (e.keyCode == 13) // 'enter' keyCode
 		{
 			// check if the username is valid
 			var name = $(this).val();
-			
+
 			if (name && name.length > 0)
 			{
 				// save it to the broser storage
 				localStorage.setItem('username', name);
-				
+
 				// go to home screen
 				$('.setup').fadeOut(1000, function() {
 					showHomePage();
-				});							
+				});
 			}
 		}
 	});
-	
+
 	$('.panel').hide(); // hide all panels
-	
+
 	// show setup panel gently
+	$('.setup input').val('');
+
 	$('.setup').fadeIn(3000, function() {
 		$(this).find('input').focus();
 	});
@@ -67,16 +69,18 @@ function showSetupPage()
 // the main page. if a username has set, this will be the first page.
 function showHomePage()
 {
+	$('.home input').val('');
+
 	$('.home').fadeIn(3000, function() {
 		$(this).find('input').focus();
 	});
-	
+
 	updateTime();
 	updateWeather();
 }
 
 // this function add 0 in front of the number that are < 10
-function formatTime(i) 
+function formatTime(i)
 {
 	if (i < 10) {
 		i = "0" + i;
@@ -86,20 +90,20 @@ function formatTime(i)
 }
 
 // update current time on screen
-function updateTime() 
+function updateTime()
 {
 	// check for invalid user
-	if (localStorage.getItem('username') == undefined) 
+	if (localStorage.getItem('username') == undefined)
 	{
 		showSetupPage();
 		return;
 	}
-	
+
     // get current date
 	var today = new Date();
-  
+
 	var hour = today.getHours();
-	var minutes = today.getMinutes();   
+	var minutes = today.getMinutes();
 
 	$('.home h1').html(formatTime(hour) + ":" + formatTime(minutes));
 
@@ -119,19 +123,19 @@ function updateBackgroundImage()
 	var unsplashUrl = "https://api.unsplash.com/photos/random?featured";
 	var unsplashClientId = "a24e1fa3b77c93935f0552ebf6354a3540e9aa356caf80a1fcb55125fdb16110";
 	var interval = 1*60*1000;
-	
+
     $.getJSON(unsplashUrl + "&client_id=" + unsplashClientId, function(data)
-	{        
-        // change data.urls.full to data.urls.regular for faster loading but 
+	{
+        // change data.urls.full to data.urls.regular for faster loading but
 		// image quality will be slightly worse
         var photoUrl = data.urls.regular;
-        
-        $("body").css("background-image", "url(" + photoUrl + ")");       
+
+        $("body").css("background-image", "url(" + photoUrl + ")");
     })
 	.fail(function() {
 		$("body").css("background-image", "url(static.jpg)");
 	})
-	.always(function() 
+	.always(function()
 	{
 		setTimeout(function(){
 			updateBackgroundImage();
@@ -145,18 +149,18 @@ function updateWeather()
 	var weatherUrl = "https://api.openweathermap.org/data/2.5/weather?";
 	var appId = "0ba1b50f1a3738d6071b91674041def7";
 	var interval = 1*60*1000;
-	
+
 	// first JSON request to get the location
 	$.getJSON(ipUrl, function(data)
-	{		
+	{
 		// second JSON request to get the weather
-		$.getJSON(weatherUrl + "q=" + data.city + "&appid=" + appId, function(data) 
-		{			
+		$.getJSON(weatherUrl + "q=" + data.city + "&units=metric&appid=" + appId, function(data)
+		{
 			$('.weather img').attr('src','http://openweathermap.org/img/w/' + data.weather[0].icon + '.png');
-			$('.weather .temp').html(Math.floor((data.main.temp - 273.15)) + '°C');
-			$('.weather .city').html(data.name);			
+			$('.weather .temp').html(Math.round(data.main.temp) + '°C');
+			$('.weather .city').html(data.name);
 		})
-		.always(function() 
+		.always(function()
 		{
 			setTimeout(function(){
 				updateWeather();
