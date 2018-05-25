@@ -19,6 +19,8 @@ body
 	-webkit-transition: background 2s ease-in-out;
 	-moz-transition: background 2s ease-in-out;	
 	transition: background 2s ease-in-out;
+	
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 .panel {
@@ -110,4 +112,36 @@ input
 	display: block;
 	text-transform: uppercase;
 	font-size: 10px;	
+}
+
+.mainFocus
+{
+  display: none;
+}
+
+.mainFocus p{
+  display: inline;
+  padding: 10px;
+  font-weight: normal;
+	font-size: 25px;
+}
+
+.mainFocus span {
+  visibility: hidden;;
+  color: #FFF;
+}
+
+.mainFocus span i{
+  display: inline-block;
+  padding: 6px 8px 6px 8px;
+  border: 1px solid transparent;
+}
+
+.mainFocus:hover span{
+  visibility: visible;
+}
+
+#btnClose:hover i{
+    border: 1px solid #FFF;
+    border-radius: 100%;
 }

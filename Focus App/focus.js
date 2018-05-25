@@ -75,6 +75,21 @@ function showHomePage()
 		$(this).find('input').focus();
 	});
 
+	$('.home input').off('change.home').on('change.home',function(e){
+  	    var input = $(this);
+		localStorage.setItem('mainFocus',input.val());
+
+		input.hide();
+		$('.home .mainFocus').show();
+		$('.home .mainFocus p').html(input.val());
+	});
+
+	$('.home #btnClose').off('click.home').on('click.home', function(e){
+			localStorage.removeItem('mainFocus');
+			$('.home input').val("").show().focus();
+			$('.home .mainFocus').hide();
+	});
+	
 	updateTime();
 	updateWeather();
 }
@@ -129,8 +144,7 @@ function updateBackgroundImage()
         // change data.urls.full to data.urls.regular for faster loading but
 		// image quality will be slightly worse
         var photoUrl = data.urls.regular;
-
-        $("body").css("background-image", "url(" + photoUrl + ")");
+		$("body").css("background-image", "url(" + photoUrl + ")");
     })
 	.fail(function() {
 		$("body").css("background-image", "url(static.jpg)");
